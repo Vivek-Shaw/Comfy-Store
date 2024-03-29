@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
-import {FaBarsStaggered} from 'react-icons/fa6';
-import { NavLink } from 'react-router-dom';
-import NavLinks from './NavLinks';
+import React, { useEffect, useState } from "react";
+import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
+import { FaBarsStaggered } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
+import NavLinks from "./NavLinks";
+import { useSelector } from "react-redux";
 
-const themes = { 
-  winter: 'winter',
-  dracula: 'dracula',
-}
-const getThemeFromLocalStorage=()=>{
-  return localStorage.getItem('theme') || themes.winter
-}
+const themes = {
+  winter: "winter",
+  dracula: "dracula",
+};
+const getThemeFromLocalStorage = () => {
+  return localStorage.getItem("theme") || themes.winter;
+};
 const Navbar = () => {
-
   const [theme, setTheme] = useState(getThemeFromLocalStorage);
-  const handleTheme = () =>{
-    const {winter, dracula} = themes
-    const newTheme = theme === winter ? dracula:winter;
+  const handleTheme = () => {
+    const { winter, dracula } = themes;
+    const newTheme = theme === winter ? dracula : winter;
     setTheme(newTheme);
-  }
-  
-  useEffect(()=>{
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-  },[theme])
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const numItemsInCart = useSelector((state)=>state.cartState.numItemsInCart)
   return (
     <nav className="bg-base-200">
       <div className="navbar align-element">
@@ -67,7 +69,7 @@ const Navbar = () => {
             <div className="indicator">
               <BsCart3 className="h-6 w-6" />
               <span className="badge badge-sm badge-primary indicator-item">
-                8
+                {numItemsInCart}
               </span>
             </div>
           </NavLink>
@@ -75,6 +77,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 
-export default Navbar
+export default Navbar;
