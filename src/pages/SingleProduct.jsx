@@ -6,6 +6,7 @@ import { addItem } from "../features/cart/cartSlice";
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
+  console.log("Product", response.data.data);
   return { product: response.data.data };
 };
 
@@ -30,12 +31,12 @@ const SingleProduct = () => {
     company,
     productColor,
     amount,
-  }
-  const dispatch = useDispatch()
+  };
+  const dispatch = useDispatch();
 
-  const addToCart = () =>{
-    dispatch(addItem({product:cartProduct}))
-  }
+  const addToCart = () => {
+    dispatch(addItem({ product: cartProduct }));
+  };
   return (
     <section>
       <div className="text-md breadcrumbs">
@@ -103,10 +104,7 @@ const SingleProduct = () => {
           </div>
           {/* CART */}
           <div className="mt-10">
-            <button
-              className="btn btn-secondary btn-md"
-              onClick={addToCart}
-            >
+            <button className="btn btn-secondary btn-md" onClick={addToCart}>
               Add To Cart
             </button>
           </div>

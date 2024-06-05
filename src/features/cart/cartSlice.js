@@ -16,7 +16,7 @@ const getCartFromLocalStorage = () => {
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: getCartFromLocalStorage,
+  initialState: getCartFromLocalStorage(),
   reducers: {
     addItem: (state, action) => {
       const { product } = action.payload;
@@ -27,7 +27,7 @@ const cartSlice = createSlice({
         state.cartItems.push(product);
       }
       state.numItemsInCart += product.amount;
-      state.cartTotal += product.price + product.amount;
+      state.cartTotal += product.price * product.amount;
       cartSlice.caseReducers.calculateTotals(state);
       toast.success("Item added to cart");
     },
@@ -38,9 +38,9 @@ const cartSlice = createSlice({
     removeItem: (state, action) => {
       const { cartID } = action.payload;
       const product = state.cartItems.find((i) => i.cartID === cartID);
-      state.cartItems = state.cartItems.filter((i) => i.cartID != cartID);
+      state.cartItems = state.cartItems.filter((i) => i.cartID !== cartID);
       state.numItemsInCart -= product.amount;
-      state.cartTotal -= product.price + product.amount;
+      state.cartTotal -= product.price * product.amount;
       cartSlice.caseReducers.calculateTotals(state);
       toast.error("Item removed from cart");
     },
